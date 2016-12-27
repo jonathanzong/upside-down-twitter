@@ -1,5 +1,7 @@
 <script>
 var getMoreItems;
+var checkHeight;
+var oldHeight = 0;
 $(window).scroll(function() {
   if (!getMoreItems) {
     if ($._data(window, "events").uiNearTheBottom) {
@@ -7,23 +9,34 @@ $(window).scroll(function() {
     }
   }
   else if ($(window).scrollTop() <= 0) {
-    var oldHeight = $(document).height();
+    if (checkHeight) {
+      clearInterval(checkHeight);
+      checkHeight = null;
+    }
+    oldHeight = $(document).height();
     getMoreItems();
     $(document).one("ajaxStop", function() {
       // on loaded more items
       $('.stream-footer').hide();
-      $(document).scrollTop($(document).height() - oldHeight);
+      $(document).scrollTop($(document).scrollTop() + $(document).height() - oldHeight);
     });
   }
 });
-$(document).one("ajaxStop", function() {
+$(document).ready(function() {
   $(document).scrollTop($(document).height());
+  $(document).one("ajaxStop", function() {
+    $(document).scrollTop($(document).height());
+  });
+  checkHeight = setInterval(function() {
+    var newHeight = $(document).height();
+    if (oldHeight !== newHeight) {
+      $(document).scrollTop($(document).scrollTop() + newHeight - oldHeight);
+      oldHeight = newHeight;
+    }
+  }, 5);
 });
 </script>
 <style>
-.twitter-flipper{
-  transform: rotate(180deg);
-}
 .ProfileCanopy.is-locked .ProfileCanopy-inner {
     position: relative;
     top: 0;

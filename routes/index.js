@@ -40,6 +40,8 @@ router.get('/*', function(req, res, next) {
       $ = cheerio.load(body);
       var $flip = $('<div class="twitter-flipper"></div>');
       $('body').wrap($flip);
+      var $style = $('<style>.twitter-flipper{transform: rotate(180deg);}</style>');
+      $('head').append($style);
       readModuleFile(path.join(__dirname, 'include.html'), function (err, contents) {
         console.log(contents);
         var $scroller = $(contents);
