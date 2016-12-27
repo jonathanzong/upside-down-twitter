@@ -13,6 +13,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
     "request": "~2.79.0",
-    "cheerio": "latest"
+    "cheerio": "latest",
+    "serve-favicon": "latest"
   }
 }
