@@ -64,6 +64,7 @@ router.get('/*', function(req, res, next) {
       $('head').append($style);
       $('meta[name=description]').attr('content', '˙ʎɹɐʇuǝɯɯoɔ ǝʌᴉl ǝɥʇ llɐ ɥʇᴉʍ ʎɹoʇs llnɟ ǝɥʇ ʇǝƃ \'sɔᴉʇᴉlod puɐ sʇɹods oʇ ʇuǝɯuᴉɐʇɹǝʇuǝ puɐ sʍǝu ƃuᴉʞɐǝɹq ɯoɹℲ');
       $('title').html('˙ƃuᴉuǝddɐɥ s,ʇɐɥʍ s,ʇI ˙ɹǝʇʇᴉʍʇ');
+      $('link[rel=canonical]').remove();
       readModuleFile(path.join(__dirname, 'include.html'), function (err, contents) {
         console.log(contents);
         var $scroller = $(contents);
