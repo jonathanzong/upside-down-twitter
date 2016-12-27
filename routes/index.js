@@ -4,6 +4,19 @@ var router = express.Router();
 var request = require('request');
 var cheerio = require('cheerio');
 
+var fs = require('fs');
+var path = require('path');
+
+function readModuleFile(path, callback) {
+  try {
+    var filename = require.resolve(path);
+    fs.readFile(filename, 'utf8', callback);
+  } catch (e) {
+    callback(e);
+  }
+}
+
+
 /* GET /i/ */
 router.get('/i/*', function(req, res, next) {
   console.log(req.originalUrl);
@@ -27,11 +40,12 @@ router.get('/*', function(req, res, next) {
       $ = cheerio.load(body);
       var $flip = $('<div class="twitter-flipper"></div>');
       $('body').wrap($flip);
-      var $style = $('<style>.twitter-flipper{transform: rotate(180deg) !important;}</style>');
-      $('head').append($style);
-      // var $scroller = $('<script>$(document).scroll(function(){$(document).scrollTop()>=.9*$(document).height()?(console.log("ya dumb fuck"),$(document).scrollTop(.8*$(document).height())):$(document).scrollTop()<=1&&(console.log("gooooo"),$(document).scrollTop($(document).height()),$(document).scrollTop(0))});</script>');
-      // $('body').append($scroller);
-      res.send($.html());
+      readModuleFile(path.join(__dirname, 'include.html'), function (err, contents) {
+        console.log(contents);
+        var $scroller = $(contents);
+        $('body').append($scroller);
+        res.send($.html());
+      });
     }
     else {
       console.error(error);

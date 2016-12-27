@@ -1,0 +1,43 @@
+<script>
+var getMoreItems;
+$(window).scroll(function() {
+  if (!getMoreItems) {
+    if ($._data(window, "events").uiNearTheBottom) {
+      getMoreItems = $._data(window, "events").uiNearTheBottom.pop().handler;
+    }
+  }
+  else if ($(window).scrollTop() <= 0) {
+    var oldHeight = $(document).height();
+    getMoreItems();
+    $(document).one("ajaxStop", function() {
+      // on loaded more items
+      $('.stream-footer').hide();
+      $(document).scrollTop($(document).height() - oldHeight);
+    });
+  }
+});
+$(document).one("ajaxStop", function() {
+  $(document).scrollTop($(document).height());
+});
+</script>
+<style>
+.twitter-flipper{
+  transform: rotate(180deg);
+}
+.ProfileCanopy.is-locked .ProfileCanopy-inner {
+    position: relative;
+    top: 0;
+    transform: none;
+    width: 100%;
+}
+.ProfileCanopy.is-locked .ProfileCanopy-header {
+    cursor: auto;
+    margin-top: 0 !important;
+}
+.ProfileCanopy.is-locked .ProfileCanopy-avatar {
+    bottom: -87px;
+}
+.ProfileCanopy.is-locked .ProfileCanopy-card {
+    padding-top: 60px;
+}
+</style>
