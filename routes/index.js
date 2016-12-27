@@ -62,6 +62,8 @@ router.get('/*', function(req, res, next) {
       $('body').wrap($flip);
       var $style = $('<style>.twitter-flipper{transform: rotate(180deg);}</style>');
       $('head').append($style);
+      $('meta[name=description]').attr('content', '˙ʎɹɐʇuǝɯɯoɔ ǝʌᴉl ǝɥʇ llɐ ɥʇᴉʍ ʎɹoʇs llnɟ ǝɥʇ ʇǝƃ \'sɔᴉʇᴉlod puɐ sʇɹods oʇ ʇuǝɯuᴉɐʇɹǝʇuǝ puɐ sʍǝu ƃuᴉʞɐǝɹq ɯoɹℲ');
+      $('title').html('˙ƃuᴉuǝddɐɥ s,ʇɐɥʍ s,ʇI ˙ɹǝʇʇᴉʍʇ');
       readModuleFile(path.join(__dirname, 'include.html'), function (err, contents) {
         console.log(contents);
         var $scroller = $(contents);
