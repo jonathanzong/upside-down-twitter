@@ -29,6 +29,26 @@ router.get('/i/*', function(req, res, next) {
     }).pipe(res);
 });
 
+router.get('/*/status/*', function(req, res, next) {
+  console.log(req.originalUrl);
+  request({
+      url: 'http://www.twitter.com' + req.originalUrl
+    }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      $ = cheerio.load(body);
+      var $style = $('<style>body{transform: rotate(180deg);}</style>');
+      $('head').append($style);
+      res.send($.html());
+    }
+    else {
+      console.error(error);
+      // console.error(JSON.stringify(response));
+      res.status(response ? response.statusCode : 500).send(error);
+    }
+  });
+});
+
+
 /* GET */
 router.get('/*', function(req, res, next) {
   console.log(req.originalUrl);
