@@ -4,7 +4,8 @@ var checkHeight;
 var oldHeight = 0;
 $(window).scroll(function() {
   if (!getMoreItems) {
-    if ($._data(window, "events").uiNearTheBottom) {
+    var maybeHandler = $._data(window, "events").uiNearTheBottom;
+    if (maybeHandler && maybeHandler.length) {
       getMoreItems = $._data(window, "events").uiNearTheBottom.pop().handler;
     }
   }
@@ -27,6 +28,10 @@ $(document).ready(function() {
     window.location.href = $(this).attr('href');
     return false;
   });
+  $('.js-profile-popup-actionable').click(function() {
+    window.location.href = $(this).data('permalink-path');
+    return false;
+  });
   $(document).scrollTop($(document).height());
   $(document).one("ajaxStop", function() {
     $(document).scrollTop($(document).height());
@@ -36,6 +41,12 @@ $(document).ready(function() {
     if (oldHeight !== newHeight) {
       $(document).scrollTop($(document).scrollTop() + newHeight - oldHeight);
       oldHeight = newHeight;
+    }
+    if (!getMoreItems) {
+      var maybeHandler = $._data(window, "events").uiNearTheBottom;
+      if (maybeHandler && maybeHandler.length) {
+        getMoreItems = $._data(window, "events").uiNearTheBottom.pop().handler;
+      }
     }
   }, 5);
 });
